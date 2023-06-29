@@ -270,9 +270,6 @@ public class Sudoku {
 
     private boolean compare(int[][] temp) {
 
-        String s = "hello::";
-        if (s.replaceAll("^[Aa-Zz]|[0-9]", "");
-
         for (int i = 0; i < temp.length; i++) {
             for (int j = 0; j < temp.length; j++) {
                 if (temp[i][j] != maingrid[i][j]) {
