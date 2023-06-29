@@ -19,31 +19,31 @@ public class Sudoku {
 
     public static void main(String[] args) {
 
-        // int[][] grid = {{0, 3, 4, 0, 0, 0, 0, 0, 2},
-        //     {6, 0, 0, 3, 0, 2, 0, 7, 0},
-        //     {0, 1, 0, 0, 7, 0, 0, 0, 8},
-        //     {0, 0, 6, 7, 8, 1, 3, 4, 0},
-        //     {8, 0, 1, 0, 0, 0, 0, 0, 0},
-        //     {0, 0, 3, 5, 0, 0, 0, 9, 1},
-        //     {0, 4, 2, 0, 0, 5, 6, 0, 0},
-        //     {0, 0, 0, 0, 0, 3, 0, 0, 4},
-        //     {5, 0, 0, 0, 0, 0, 0, 0, 3}
-        // };
+        int[][] grid = {{6, 8, 5, 9, 4, 7, 1, 3, 2},
+            {0, 0, 4, 2, 1, 6, 5, 0, 0},
+            {0, 0, 0, 8, 5, 3, 7, 6, 4},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 5, 0, 0, 8, 7, 1},
+            {4, 0, 0, 0, 0, 9, 2, 0, 6},
+            {0, 0, 8, 0, 9, 0, 0, 0, 0},
+            {0, 0, 0, 7, 0, 0, 0, 0, 5},
+            {1, 9, 0, 0, 0, 0, 0, 8, 0}
+        };
 
-        int[][] grid = new int[9][9];
+        // int[][] grid = new int[9][9];
 
-        Scanner input = new Scanner(System.in);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.printf("What is the input for row %s ", i);
-                System.out.printf("and column %s \n", j);
-                System.out.println("Put 0 for blank spots");
-                int num = input.nextInt();
-                grid[i][j] = num;
-            }
-        }
+        // Scanner input = new Scanner(System.in);
+        // for (int i = 0; i < 9; i++) {
+        //     for (int j = 0; j < 9; j++) {
+        //         System.out.printf("What is the input for row %s ", i);
+        //         System.out.printf("and column %s \n", j);
+        //         System.out.println("Put 0 for blank spots");
+        //         int num = input.nextInt();
+        //         grid[i][j] = num;
+        //     }
+        // }
 
-        input.close();
+        // input.close();
 
         // grid[0][0] = 4;
         // grid[0][1] = 1;
@@ -270,6 +270,9 @@ public class Sudoku {
 
     private boolean compare(int[][] temp) {
 
+        String s = "hello::";
+        if (s.replaceAll("^[Aa-Zz]|[0-9]", "");
+
         for (int i = 0; i < temp.length; i++) {
             for (int j = 0; j < temp.length; j++) {
                 if (temp[i][j] != maingrid[i][j]) {
@@ -317,30 +320,32 @@ public class Sudoku {
                         sudoku.update(i, j, value);
 
                     }
-
-                    // Map<String, Map<Integer, Boolean>> whole = new HashMap<>();
-                  //  String pos = String.valueOf(i) + String.valueOf(j);
-                   // whole.put(pos, dict);
+               
+                  // store the dictionaries into a dictionary of dictionaries with the position as the key.
+                    String pos = String.valueOf(i) + String.valueOf(j);
+                    whole.put(pos, dict);
                     // System.out.println(whole);
                 }
             }
 
         }
 
-        // need to work on this
-      //   check(whole);
+        // check the dictionaries to see if a value appears only once horizontally, vertically, or in the box.
+        check(whole);
 
 
     }
 
     private void check (Map<String, Map<Integer, Boolean>> whole) {
         for (int row = 0; row < maingrid.length; row++) {
+            // going through each row.. row 0, row 1, row 2 etc.
             oneSpotH(whole, row);
         }
 
-        // for (int column = 0; column < maingrid.length; column++) {
-        //     oneSpotV(whole, column);
-        // }
+        for (int column = 0; column < maingrid.length; column++) {
+            // going through each column
+            oneSpotV(whole, column);
+        }
     }
 
     // Need to account for if it has only one spot where it is true
@@ -356,18 +361,30 @@ public class Sudoku {
         int num7 = 0;
         int num8 = 0;
         int num9 = 0;
-      //  for (int i = 0; i < whole.size(); i++) {
+      
+        int col1 = -1;
+        int col2 = -1;
+        int col3 = -1;
+        int col4 = -1;
+        int col5 = -1;
+        int col6 = -1;
+        int col7 = -1;
+        int col8 = -1;
+        int col9 = -1;
 
         for (String x: whole.keySet()) {
-            // if we're comparing the dictionary for the rows
+            // comparing dictionaries with the same row numbers.
             if (x.substring(0, 1).equals(String.valueOf(row))) {
 
                 System.out.printf("rowww %d \n", row);
 
+                // returns the dictionary of this position
                 Map<Integer, Boolean> innerMap = whole.get(x);
 
                 // I need to go through the values of each position that is on the row.
                 // the position to update will be the substring, the value will be e.
+
+                // goes through the keys of the dictionary for the position
                 for (int e: innerMap.keySet()) {
 
                     System.out.print("keyset: ");
@@ -376,105 +393,244 @@ public class Sudoku {
 
                     // System.out.print("Get readyyy: ");
                     // System.out.println(innerMap.get(e));
+                    // returns if the value at e is possible(True) or not possible(false)
                     if (innerMap.get(e) == true) {
 
                         if (e == 1) {
                             num1++;
+                            col1 = Integer.valueOf(x.substring(1, 2));
                         }
                         if (e == 2) {
                             num2++;
+                            col2 = Integer.valueOf(x.substring(1, 2));
                         }
                         if (e == 3) {
                             num3++;
+                            col3 = Integer.valueOf(x.substring(1, 2));
                         }
 
                         if (e == 4) {
                             num4++;
+                            col4 = Integer.valueOf(x.substring(1, 2));
                         }
                         if (e == 5) {
                             num5++;
+                            col5 = Integer.valueOf(x.substring(1, 2));
                         }
                         if (e == 6) {
                             num6++;
+                            col6 = Integer.valueOf(x.substring(1, 2));
                         }
                         if (e == 7) {
                             num7++;
+                            col7 = Integer.valueOf(x.substring(1, 2));
                         }
                         if (e == 8) {
                             num8++;
+                            col8 = Integer.valueOf(x.substring(1, 2));
                         }
                         if (e == 9) {
                             num9++;
+                            col9 = Integer.valueOf(x.substring(1, 2));
                         }
 
                     }
-    
-
-                if (num1 == 1) {
-
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 1);
-
                 }
-
-                if (num2 == 1) {
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 2);
-
-                }
-                if (num3 == 1) {
-
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 3);
-
-                }
-                if (num4 == 1) {
-
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 4);
-
-                }
-                if (num5 == 1) {
-
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 5);
-                }
-                if (num6 == 1) {
-
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 6);
-
-                }
-
-                if (num7 == 1) {
-
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 7);
-
-                }
-
-                if (num8 == 1) {
-
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 8);
-
-                }
-
-                if (num9 == 1) {
-
-                    update(Integer.valueOf(x.substring(0, 1)), Integer.valueOf(x.substring(1, 2)), 9);
-
-                }
-
-            }
-                
             }
         }
+    
 
+        if (num1 == 1) {
 
-      //  }
+            update(row, col1, 1);
 
+        }
+
+        if (num2 == 1) {
+            update(row, col2, 2);
+
+        }
+        if (num3 == 1) {
+
+            update(row, col3, 3);
+
+        }
+        if (num4 == 1) {
+
+            update(row, col4, 4);
+
+        }
+        if (num5 == 1) {
+
+            update(row, col5, 5);
+        }
+        if (num6 == 1) {
+
+            update(row, col6, 6);
+
+        }
+
+        if (num7 == 1) {
+
+            update(row, col7, 7);
+
+        }
+
+        if (num8 == 1) {
+
+            update(row, col8, 8);
+
+        }
+
+        if (num9 == 1) {
+
+            update(row, col9, 9);
+
+        }
 
     }
 
-    private void oneSpotV(Map<String, Map<Integer, Boolean>> whole, int column) {
+    private void oneSpotV(Map<String, Map<Integer, Boolean>> whole, int col) {
 
-        System.out.println("check check");
+        int num1 = 0;
+        int num2 = 0;
+        int num3 = 0;
+        int num4 = 0;
+        int num5 = 0;
+        int num6 = 0;
+        int num7 = 0;
+        int num8 = 0;
+        int num9 = 0;
+      
+        int row1 = -1;
+        int row2 = -1;
+        int row3 = -1;
+        int row4 = -1;
+        int row5 = -1;
+        int row6 = -1;
+        int row7 = -1;
+        int row8 = -1;
+        int row9 = -1;
 
+        for (String x: whole.keySet()) {
+            // comparing dictionaries with the same row numbers.
+            if (x.substring(1, 2).equals(String.valueOf(col))) {
+
+                System.out.printf("rowww %d \n", col);
+
+                // returns the dictionary of this position
+                Map<Integer, Boolean> innerMap = whole.get(x);
+
+                // I need to go through the values of each position that is on the col.
+                // the position to update will be the substring, the value will be e.
+
+                // goes through the keys of the dictionary for the position
+                for (int e: innerMap.keySet()) {
+
+                  //  System.out.print("keyset: ");
+                  //  System.out.println(innerMap.keySet());
+
+
+                    // System.out.print("Get readyyy: ");
+                    // System.out.println(innerMap.get(e));
+                    // returns if the value at e is possible(True) or not possible(false)
+                    if (innerMap.get(e) == true) {
+
+                        if (e == 1) {
+                            num1++;
+                            row1 = Integer.valueOf(x.substring(0, 1));
+                        }
+                        if (e == 2) {
+                            num2++;
+                            row2 = Integer.valueOf(x.substring(0, 1));
+            
+                        }
+                        if (e == 3) {
+                            num3++;
+                            row3 = Integer.valueOf(x.substring(0, 1));
+                        }
+
+                        if (e == 4) {
+                            num4++;
+                            row4 = Integer.valueOf(x.substring(0, 1));
+                        }
+                        if (e == 5) {
+                            num5++;
+                            row5 = Integer.valueOf(x.substring(0, 1));
+                        }
+                        if (e == 6) {
+                            num6++;
+                            row6 = Integer.valueOf(x.substring(0, 1));
+                        }
+                        if (e == 7) {
+                            num7++;
+                            row7 = Integer.valueOf(x.substring(0, 1));
+                        }
+                        if (e == 8) {
+                            num8++;
+                            row8 = Integer.valueOf(x.substring(0, 1));
+                        }
+                        if (e == 9) {
+                            num9++;
+                            row9 = Integer.valueOf(x.substring(0, 1));
+                        }
+
+                    }
+                }
+            }
+        }
+    
+
+        if (num1 == 1) {
+
+            update(row1, col, 1);
+
+        }
+
+        if (num2 == 1) {
+            update(row2, col, 2);
+
+        }
+        if (num3 == 1) {
+
+            update(row3, col, 3);
+
+        }
+        if (num4 == 1) {
+
+            update(row4, col, 4);
+
+        }
+        if (num5 == 1) {
+
+            update(row5, col, 5);
+        }
+        if (num6 == 1) {
+
+            update(row6, col, 6);
+
+        }
+
+        if (num7 == 1) {
+
+            update(row7, col, 7);
+
+        }
+
+        if (num8 == 1) {
+
+            update(row8, col, 8);
+
+        }
+
+        if (num9 == 1) {
+
+            update(row9, col, 9);
+
+        }
 
     }
+
 
     private void oneSpotB() {
 
